@@ -1,4 +1,5 @@
 // Entry Point
+require("dotenv").config();
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -20,6 +21,9 @@ app.use(express.json());
 //Routes
 
 app.get("/", (req, res) => res.send("Build Atlantic API is Running!"));
+
+const programRoutes = require("./routes/programRoutes");
+app.use("/api/programs", programRoutes); // Register Program Routes
 
 //Starts The Server
 
