@@ -35,15 +35,21 @@ router.get("/:id", async (req, res) => {
 router.post("/", authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const { title, description, eligibilityCriteria } = req.body;
+
     if (!title || !description || !eligibilityCriteria) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({
+        message:
+          "All fields (title, description, eligibilityCriteria) are required",
+      });
     }
+
     const newProgram = new Program({ title, description, eligibilityCriteria });
     const savedProgram = await newProgram.save();
     res.status(201).json(savedProgram);
   } catch (error) {
-    res.status(500).json({ message: "Error creating program", error });
-    console.error(error); // Optional: for debugging
+    res
+      .status(500)
+      .json({ message: "Error creating program", error: error.message });
   }
 });
 
@@ -51,21 +57,29 @@ router.post("/", authenticateToken, authorizeAdmin, async (req, res) => {
 router.put("/:id", authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const { title, description, eligibilityCriteria } = req.body;
+
     if (!title || !description || !eligibilityCriteria) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({
+        message:
+          "All fields (title, description, eligibilityCriteria) are required",
+      });
     }
+
     const updatedProgram = await Program.findByIdAndUpdate(
       req.params.id,
       { title, description, eligibilityCriteria },
       { new: true, runValidators: true }
     );
+
     if (!updatedProgram) {
       return res.status(404).json({ message: "Program not found" });
     }
+
     res.status(200).json(updatedProgram);
   } catch (error) {
-    res.status(500).json({ message: "Error updating program", error });
-    console.error(error); // Optional: for debugging
+    res
+      .status(500)
+      .json({ message: "Error updating program", error: error.message });
   }
 });
 
@@ -73,13 +87,16 @@ router.put("/:id", authenticateToken, authorizeAdmin, async (req, res) => {
 router.delete("/:id", authenticateToken, authorizeAdmin, async (req, res) => {
   try {
     const deletedProgram = await Program.findByIdAndDelete(req.params.id);
+
     if (!deletedProgram) {
       return res.status(404).json({ message: "Program not found" });
     }
+
     res.status(200).json({ message: "Program deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting program", error });
-    console.error(error); // Optional: for debugging
+    res
+      .status(500)
+      .json({ message: "Error deleting program", error: error.message });
   }
 });
 
