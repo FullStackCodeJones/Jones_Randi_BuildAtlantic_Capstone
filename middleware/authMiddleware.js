@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Adjust this import based on your project structure
+const User = require("../models/User"); // Ensure this import is correct
+const adminControllers = require("../models/adminControllers");
 
 // The Middleware To Verify Token
 function authenticateToken(req, res, next) {
@@ -28,28 +29,4 @@ function authorizeAdmin(req, res, next) {
   next();
 }
 
-// Admin User Creation on Startup
-module.exports.addAdminUser = async function () {
-  try {
-    const existingAdmin = await User.findOne({ email: "admin@example.com" });
-
-    if (existingAdmin) {
-      console.log("Admin user already exists.");
-      return;
-    }
-
-    const adminUser = new User({
-      name: "Randi Jones",
-      email: "admin@example.com",
-      password: process.env.ADMIN_PASSWORD, // Securely fetch from environment variable
-      role: "admin",
-    });
-
-    const result = await adminUser.save();
-    console.log("Admin User Added", result);
-  } catch (err) {
-    console.error("Error Adding Admin User", err.message);
-  }
-};
-
-module.exports = { authenticateToken, authorizeAdmin, addAdminUser };
+module.exports = { authenticateToken, authorizeAdmin };
