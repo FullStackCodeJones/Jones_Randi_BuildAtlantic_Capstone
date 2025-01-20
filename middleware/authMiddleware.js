@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User"); // Ensure this import is correct
-const adminControllers = require("../models/adminControllers");
+const adminControllers = require("../controllers/adminControllers");
 
 // The Middleware To Verify Token
 function authenticateToken(req, res, next) {

@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const router = express.Router();
+const router = express.Router(); // Create a router instance
 
 // Register Endpoint
 router.post("/register", async (req, res) => {

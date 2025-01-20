@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const adminControllers = require("../models/adminControllers");
+const adminControllers = require("../controllers/adminControllers");
 
 //Route for CReating an Admin USer
 
