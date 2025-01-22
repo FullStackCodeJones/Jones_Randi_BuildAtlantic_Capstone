@@ -1,18 +1,28 @@
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 
 const createAdminUser = async (req, res) => {
   try {
-    // This is to check if an admin user already exists
-    const existingAdmin = await User.findOne({ email: "admin@example.com" });
+    // Check if an admin user already exists
+    const existingAdmin = await User.findOne({ email: req.body.email });
     if (existingAdmin) {
       return res.status(400).json({ message: "Admin User Already Exists." });
     }
 
     // Extract Data From Request Body
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role = "admin" } = req.body; // Default role to 'admin'
 
     // Create a new Admin User
-    const newAdmin = new User({ name, email, password, role });
+    const newAdmin = new User({
+      name,
+      email,
+      password,
+      role,
+    });
+
+    // Hash the password before saving it to the database
+    newAdmin.password = await bcrypt.hash(password, 10); // 10 is salt round
+
     await newAdmin.save();
 
     res.status(201).json({ message: "Admin User Added" });

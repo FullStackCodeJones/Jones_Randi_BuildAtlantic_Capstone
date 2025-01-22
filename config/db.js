@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
-      dbName: "BuildAtlantic", // Explicitly set your database name here
+      dbName: "BuildAtlantic",
     });
     console.log("MongoDB Connected Successfully.");
   } catch (error) {

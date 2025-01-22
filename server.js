@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 const User = require("./models/User"); // Imports the User Schema
 const authRoutes = require("./routes/authRoutes"); // Import Auth Routes
 const programRoutes = require("./routes/programRoutes"); // Import Program Routes
-
+const registerControllers = require("./routes/registerControllers"); //
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -33,6 +33,8 @@ User.addAdminUser()
   .catch((error) => {
     console.error("Error adding admin user:", error.message);
   });
+// Register Route
+app.post("/register", registerControllers.register);
 
 // Start the Server
 app.listen(PORT, () => console.log(`Server Running on Port ${PORT}`));
